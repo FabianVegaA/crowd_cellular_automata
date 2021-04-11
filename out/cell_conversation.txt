@@ -1,0 +1,89 @@
+0 0 impaczado
+
+0 2 estar
+
+0 3 elefvnre
+
+0 4 celular
+
+0 5 computador 
+
+0 6 erefanty
+
+0 9 guchaga
+
+1 1 sa
+
+1 3 puchage
+
+1 6 qo
+
+1 7 glchhga
+
+1 8 vushaga
+
+2 0 sz
+
+2 1 oracion
+
+2 2 cucaracha
+
+2 8 xz
+
+2 9 so
+
+3 0 como
+
+3 1 elefante
+
+3 2 estados
+
+3 3 elefante
+
+3 5 como
+
+3 7 sh
+
+3 8 xz
+
+4 0 oracion
+
+4 1 estados
+
+4 2 chile
+
+4 3 perro
+
+4 8 gato
+
+5 0 como
+
+5 1 sinonimo
+
+5 2 cuchara
+
+5 4 oracion
+
+5 8 estas
+
+6 0 hola
+
+6 3 sopa
+
+6 5 coliflor
+
+7 0 estas
+
+7 7 ser
+
+8 5 elefante
+
+9 0 iapactado
+
+9 5 erzfvnty
+
+9 6 poema
+
+9 8 ibmo
+
+9 9 como

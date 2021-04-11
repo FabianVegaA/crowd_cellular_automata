@@ -1,0 +1,10 @@
+grid:
+  size: !!python/tuple [10, 10]
+  epochs: 10
+
+word_mutator:
+  mutator_consonants: True
+  mutator_vocals: True
+  reorganize: False
+  mutation_mode: "random"
+  mutations: 2

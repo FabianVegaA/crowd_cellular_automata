@@ -1,30 +1,35 @@
 import numpy as np
 import random
 
-from string import ascii_lowercase
 
+from src.word_mutator import WordMutator
 
-NEIGHBOURS = [(0, 1), (1, 0), (-1, 0), (0, -1)]
+_NEIGHBOURHOOD_TYPE = {
+    'neumann': [(0, 1), (1, 0), (-1, 0), (0, -1)],
+    'moore': [(0, 1), (1, 0), (-1, 0), (0, -1), (1, 1), (1, -1), (-1, 1), (-1, -1)]
+}
 
 
 class Grid():
 
-    def __init__(self, size=(1, 1)):
+    def __init__(self, mutator,  size=(2, 2)):
         self.size = size
         self.cells = None
+        self.Mutator = mutator
 
+    # TODO: I should implement a better way to show the cells
     def __str__(self):
         return self.cells
 
     def generate_state_initial(self):
         self.cells = np.random.randint(2, size=self.size, dtype=int)
-        self.generate_initial_vocabulary()
+        self._generate_initial_vocabulary()
 
-    def generate_initial_vocabulary(self):
+    def _generate_initial_vocabulary(self):
         with open('statics/words.txt') as words_file:
             words = words_file.readlines()
 
-        with open('statics/cell_conversation.txt', mode='w') as cell_conversation:
+        with open('out/cell_conversation.txt', mode='w') as cell_conversation:
             for i in range(self.size[0]):
                 for j in range(self.size[1]):
                     if self.cells[i][j] == 1:
@@ -37,7 +42,7 @@ class Grid():
             if show:
                 print('-'*60, '\n', self.cells)
 
-    def cont_neighbors(self, position):
+    def _cont_neighbors(self, position):
         x_pos, y_pos = position
         n_neighbours = 0
         for i in range(-1, 1):
@@ -52,16 +57,16 @@ class Grid():
         for i in range(self.size[0]):
             for j in range(self.size[1]):
                 if self.cells[i][j] == 1:
-                    neighbour_listened = self.chooce_neighbour_listene()
+                    neighbour_listened = self._chooce_neighbour_listened()
 
-                    self.cell_talk(position=(i, j),
-                                   listened=neighbour_listened)
+                    self._cell_talk(position=(i, j),
+                                    listened=neighbour_listened)
 
-                new_cells[i][j] = self.evolute_state((i, j), mode)
+                new_cells[i][j] = self._evolute_state((i, j), mode)
 
         self.cells = new_cells
 
-    def evolute_state(self, position, mode):
+    def _evolute_state(self, position, mode):
         i, j = position
         if mode == 'random':
             if self.cells[i][j] == 0:
@@ -70,7 +75,7 @@ class Grid():
                 new_state = random.choice([0, 0, 1, 1])
 
         elif mode == 'conway-game':
-            n_neighbors = self.cont_neighbors((i, j))
+            n_neighbors = self._cont_neighbors((i, j))
 
             if n_neighbors in [2, 3]:
                 new_state = 1
@@ -81,8 +86,8 @@ class Grid():
 
         return new_state
 
-    def cell_talk(self, position, listened, word_default='impactado'):
-        with open('statics/cell_conversation.txt', mode='r') as cell_conversation:
+    def _cell_talk(self, position, listened, word_default='impactado'):
+        with open('out/cell_conversation.txt', mode='r') as cell_conversation:
             list_of_conversations = cell_conversation.readlines()
             list_of_conversations = list(
                 filter(lambda line: line != '\n', list_of_conversations))
@@ -100,25 +105,30 @@ class Grid():
             y_neighbour = self.size[1] - 1
 
         if (self.cells[x_neighbour][y_neighbour] == 1 and len(list_of_conversations) > 0):
-            word_listened = self.search_word_of_cell(
+            word_listened = self._search_word_of_cell(
                 list_of_conversations, (x_neighbour, y_neighbour))
             if word_listened is None:
                 word_listened = word_default
 
-            position_line = self.search_line_of_cell(
+            position_line = self._search_line_of_cell(
                 list_of_conversations, position)
+
+            mutated_word = WordMutator.mutator_word(
+                instanceOk=self.Mutator,
+                word=word_listened
+            )
 
             if position_line is None:
                 list_of_conversations.append(
-                    f'\n{position[0]} {position[1]} {self.mutate_word(word_listened)}\n')
+                    f'\n{position[0]} {position[1]} {mutated_word}\n')
             else:
                 list_of_conversations[
-                    position_line] = f'\n{position[0]} {position[1]} {self.mutate_word(word_listened)}\n'
+                    position_line] = f'\n{position[0]} {position[1]} {mutated_word}\n'
 
-        with open('statics/cell_conversation.txt', mode='w') as cell_conversation:
+        with open('out/cell_conversation.txt', mode='w') as cell_conversation:
             cell_conversation.write(str('\n'.join(list_of_conversations)))
 
-    def search_word_of_cell(self, list_of_conversations, position):
+    def _search_word_of_cell(self, list_of_conversations, position):
         x_position, y_position = position
 
         position_and_word = list(filter(lambda t: int(t[0]) == x_position and int(t[1]) == y_position,
@@ -131,7 +141,7 @@ class Grid():
         word = position_and_word[0][2]
         return word
 
-    def search_line_of_cell(self, list_of_conversations, position):
+    def _search_line_of_cell(self, list_of_conversations, position):
         x_position, y_position = position
 
         index = list(filter(lambda t: int(t[0]) == x_position and int(t[1]) == y_position,
@@ -143,16 +153,8 @@ class Grid():
             return None
         return index[0][3]
 
-    def mutate_word(self, word, num_mutations=None):
-        if num_mutations is None:
-            num_mutations = random.randint(0, len(word) - 1)
-        for _ in range(num_mutations):
-            l_word = list(word)
-            l_word[random.randint(0, len(word) - 2)] = ascii_lowercase[
-                random.randint(0, len(ascii_lowercase) - 1)
-            ]
-            word = ''.join(l_word)
-        return word+'\n'
-
-    def chooce_neighbour_listene(self):
-        return NEIGHBOURS[random.randint(0, len(NEIGHBOURS)-1)]
+    def _chooce_neighbour_listened(self, neighbourhood_type='moore', mode='random'):
+        if mode == 'random':
+            return random.choice(_NEIGHBOURHOOD_TYPE[neighbourhood_type])
+        elif mode == 'every-north':
+            return (0, 1)
