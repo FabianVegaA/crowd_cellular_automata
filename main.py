@@ -8,9 +8,8 @@ from src.word_mutator import WordMutator
 
 
 def get_args(args):
-    print(args)
-    assert len(args) >= 5
-    return (int(args[1]), int(args[2])), int(args[3]), int(args[4]), args[5]
+    assert len(args) >= 2
+    return args[1]
 
 
 def _read_configs(path):
@@ -25,14 +24,14 @@ def _is_yaml(path):
 
 
 if __name__ == '__main__':
-    size, epochs, seed, configs_path = get_args(sys.argv)
+    configs_path = get_args(sys.argv)
 
     # Checking the path of the configurations
     assert not _is_yaml(configs_path)
     configs = dict(_read_configs(path=configs_path))
 
     # TODO: Implement a better way to show the parameters
-    print(configs) 
+    print(configs)
 
     mutator_confs = configs['word_mutator']
     mutator = WordMutator(
@@ -47,12 +46,14 @@ if __name__ == '__main__':
     grid = Grid(
         mutator=mutator,
         size=grid_confs['size'],
-    )  # Size is a tuple with length two, width and height
+        neighbourhood_type=grid_confs['neighbourhood_type'],
+        choice_mode=grid_confs['choice_mode'],
+        word_default=grid_confs['word_default'],
+        activation_cell_mode=grid_confs['activation_cell_mode']
+    )
     grid.generate_state_initial()  # For default this initialze a random grid
-    
-    print('~'*60)
-    print('Initial State')
-    print('~'*60)
-    print(grid.cells)
 
-    grid.iterate_epochs(epochs, show=True)
+    grid.show_cells()
+    print('Initial State ⇧')
+
+    grid.iterate_epochs(epochs=grid_confs['epochs'], show=True)

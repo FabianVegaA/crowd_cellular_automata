@@ -4,22 +4,58 @@ import random
 
 from src.word_mutator import WordMutator
 
+_GRIDSTR = """
+| size: {}
+| mutator: {}
+| neighbourhood_type: {}
+| choice_mode: {}
+|
+| epochs: {}
+| iteration_state: {}
+|
+| cells: ⇩
+{}
+"""
+
 _NEIGHBOURHOOD_TYPE = {
     'neumann': [(0, 1), (1, 0), (-1, 0), (0, -1)],
     'moore': [(0, 1), (1, 0), (-1, 0), (0, -1), (1, 1), (1, -1), (-1, 1), (-1, -1)]
 }
 
+_CELLSTATES = ['⎔', '⬣']
+
 
 class Grid():
 
-    def __init__(self, mutator,  size=(2, 2)):
+    def __init__(self,
+                 mutator,
+                 size=(2, 2),
+                 neighbourhood_type='moore',
+                 choice_mode='random',
+                 word_default='impactado',
+                 activation_cell_mode='conway-game'
+                 ):
         self.size = size
         self.cells = None
-        self.Mutator = mutator
+        self.mutator = mutator
+        self.neighbourhood_type = neighbourhood_type
+        self.choice_mode = choice_mode
+        self.word_default = word_default
+        self.activation_cell_mode = activation_cell_mode
 
-    # TODO: I should implement a better way to show the cells
+        self._epochs = 0
+        self._iteration_state = 0
+
     def __str__(self):
-        return self.cells
+        return _GRIDSTR.format(
+            self.size,
+            str(self.mutator),
+            self.neighbourhood_type,
+            self.choice_mode,
+            self._epochs,
+            self._iteration_state,
+            self.cells
+        )
 
     def generate_state_initial(self):
         self.cells = np.random.randint(2, size=self.size, dtype=int)
@@ -37,10 +73,28 @@ class Grid():
                         cell_conversation.write(f'\n{i} {j} {chosen_word}\n')
 
     def iterate_epochs(self, epochs=1, show=False):
+
+        self._epochs = epochs
         for _ in range(epochs):
-            self.iterate_one_epoch(mode='conway-game')
+            self._iteration_state += 1
+            self.iterate_one_epoch()
             if show:
-                print('-'*60, '\n', self.cells)
+                self.show_cells()
+
+    def show_cells(self):
+        cells = ''
+        for i in range(self.size[0]):
+            for j in range(self.size[1]):
+                if self.cells[i][j] == 1:
+                    cells += _CELLSTATES[0] + ' '
+                elif self.cells[i][j] == 0:
+                    cells += _CELLSTATES[1] + ' '
+            cells += '\n'
+
+        print('~'*60)
+        print(f'State: {self._iteration_state}/{self._epochs}')
+        print('~'*60)
+        print(cells)
 
     def _cont_neighbors(self, position):
         x_pos, y_pos = position
@@ -51,7 +105,8 @@ class Grid():
                     n_neighbours += 1
         return n_neighbours
 
-    def iterate_one_epoch(self, mode='conway-game'):
+    def iterate_one_epoch(self):
+
         new_cells = np.zeros(self.size, dtype=int)
 
         for i in range(self.size[0]):
@@ -62,11 +117,13 @@ class Grid():
                     self._cell_talk(position=(i, j),
                                     listened=neighbour_listened)
 
-                new_cells[i][j] = self._evolute_state((i, j), mode)
+                new_cells[i][j] = self._evolute_state((i, j))
 
         self.cells = new_cells
 
-    def _evolute_state(self, position, mode):
+    def _evolute_state(self, position):
+        mode = self.activation_cell_mode
+
         i, j = position
         if mode == 'random':
             if self.cells[i][j] == 0:
@@ -86,7 +143,7 @@ class Grid():
 
         return new_state
 
-    def _cell_talk(self, position, listened, word_default='impactado'):
+    def _cell_talk(self, position, listened):
         with open('out/cell_conversation.txt', mode='r') as cell_conversation:
             list_of_conversations = cell_conversation.readlines()
             list_of_conversations = list(
@@ -97,9 +154,9 @@ class Grid():
 
         if x_neighbour < 0:
             x_neighbour = self.size[0] - 1
-        elif x_neighbour > self.size[0] - 1:
+        elif x_neighbour >= self.size[0]:
             x_neighbour = 0
-        elif y_neighbour > self.size[1] - 1:
+        if y_neighbour >= self.size[1]:
             y_neighbour = 0
         elif y_neighbour < self.size[1]:
             y_neighbour = self.size[1] - 1
@@ -108,13 +165,13 @@ class Grid():
             word_listened = self._search_word_of_cell(
                 list_of_conversations, (x_neighbour, y_neighbour))
             if word_listened is None:
-                word_listened = word_default
+                word_listened = self.word_default
 
             position_line = self._search_line_of_cell(
                 list_of_conversations, position)
 
             mutated_word = WordMutator.mutator_word(
-                instanceOk=self.Mutator,
+                instance=self.mutator,
                 word=word_listened
             )
 
@@ -153,8 +210,8 @@ class Grid():
             return None
         return index[0][3]
 
-    def _chooce_neighbour_listened(self, neighbourhood_type='moore', mode='random'):
-        if mode == 'random':
-            return random.choice(_NEIGHBOURHOOD_TYPE[neighbourhood_type])
-        elif mode == 'every-north':
+    def _chooce_neighbour_listened(self):
+        if self.choice_mode == 'random':
+            return random.choice(_NEIGHBOURHOOD_TYPE[self.neighbourhood_type])
+        elif self.choice_mode == 'every-north':
             return (0, 1)

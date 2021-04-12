@@ -1,6 +1,10 @@
 grid:
   size: !!python/tuple [10, 10]
-  epochs: 10
+  epochs: 100
+  activation_cell_mode: "conway-game"
+  neighbourhood_type: "neumann"
+  choice_mode: "every-north"
+  word_default: "impactado"
 
 word_mutator:
   mutator_consonants: True
