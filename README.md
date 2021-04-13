@@ -46,7 +46,7 @@ grid:
 >   - If the state of the cell is `0` then its probability is `0.25` to be `1` in the next iteration.
 >   - Else for the state `1` the probability is `0.5` to be `0` in the next iteration.
 >  
-> For `neighbourhood_type` exist two modes, `neumann` where only have a four neighbors ('*North*', '*South*', '*East*', and '*West*'). And `moore` with this mode take to six neighbors (they are the next to the cell).
+> For `neighbourhood_type` exist two modes, `neumann` where only have a four neighbors ('*North*', '*South*', '*East*', and '*West*'). And `moore` with this mode take to 8 neighbors (they are the next to the cell).
 >
 > Another parameter is the `choice_mode` . Each cell listens to its neighborhood but only chooses an of them. For it, exists two modes:
 > - `every-north` : It always choice to the neighbor *North*.
