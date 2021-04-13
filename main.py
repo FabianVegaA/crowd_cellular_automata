@@ -30,8 +30,7 @@ if __name__ == '__main__':
     assert not _is_yaml(configs_path)
     configs = dict(_read_configs(path=configs_path))
 
-    # TODO: Implement a better way to show the parameters
-    print(configs)
+    
 
     mutator_confs = configs['word_mutator']
     mutator = WordMutator(
@@ -52,7 +51,10 @@ if __name__ == '__main__':
         activation_cell_mode=grid_confs['activation_cell_mode']
     )
     grid.generate_state_initial()  # For default this initialze a random grid
-
+    
+   
+    print(grid)
+    
     grid.show_cells()
     print('Initial State ⇧')
 
