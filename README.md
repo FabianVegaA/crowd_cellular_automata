@@ -1,7 +1,13 @@
 # Crowd cellular automata
 
-This is an experiment about cellular automatas that it simulate a people crowd talking
+This is an experiment about cellular automatas that it simulate a people crowd talking.
 
+---
+## Intentions of the project
+This is a project where the intention is to experiment with the idea of simulating a "people crowd talking". The hypothesis is that in this situation could pattern arose on the words when all want to communicate talking incoherent word. 
+
+> This is an open-source project, open to any that want to add new configurations, features, or experiment with this cellular automata.
+---
 ## Details of the algorithm 
 
 The first that do the algorithm is create a intance of  the `WordMutator` with the next configurations:
@@ -39,11 +45,12 @@ grid:
 > - `random` : This randomly chooses the state of each cell, with the next probabilities:
 >   - If the state of the cell is `0` then its probability is `0.25` to be `1` in the next iteration.
 >   - Else for the state `1` the probability is `0.5` to be `0` in the next iteration.
-> 
-> For `neighbourhood_type` exist two modes,  `neumann` where only have a four neighbors ('*North*', '*South*', '*East*', and '*West*'). And `moore` with this mode take to six neighbors (they are the next to the cell).
+>  
+> For `neighbourhood_type` exist two modes, `neumann` where only have a four neighbors ('*North*', '*South*', '*East*', and '*West*'). And `moore` with this mode take to six neighbors (they are the next to the cell).
 >
-> Other parameter is the `choice_mode`. In each cell 
-<!-- TODO: It is necessary explain choice_modde-->
+> Another parameter is the `choice_mode` . Each cell listens to its neighborhood but only chooses an of them. For it, exists two modes:
+> - `every-north` : It always choice to the neighbor *North*.
+> - `random` : It chooses a neighbors cell randomly.
 
 ``` Python
 grid = Grid(
@@ -56,5 +63,29 @@ grid = Grid(
 
 grid.generate_state_initial() # For default this initialze a random grid 
 ```
+It is obtained some like this.
 
->
+```
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+State: 0/0
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+⎔ ⬣ ⬣ ⬣ ⬣ ⬣ ⬣ ⎔ ⎔ ⎔ 
+⬣ ⎔ ⬣ ⎔ ⎔ ⬣ ⎔ ⬣ ⎔ ⎔ 
+⬣ ⎔ ⬣ ⬣ ⬣ ⎔ ⬣ ⬣ ⬣ ⬣ 
+⬣ ⬣ ⎔ ⬣ ⬣ ⬣ ⎔ ⎔ ⎔ ⬣ 
+⬣ ⬣ ⬣ ⎔ ⎔ ⬣ ⬣ ⎔ ⬣ ⎔ 
+⬣ ⎔ ⬣ ⎔ ⬣ ⬣ ⎔ ⎔ ⎔ ⎔ 
+⎔ ⎔ ⬣ ⎔ ⎔ ⎔ ⬣ ⬣ ⬣ ⬣ 
+⎔ ⎔ ⬣ ⎔ ⎔ ⎔ ⎔ ⎔ ⬣ ⬣ 
+⬣ ⬣ ⬣ ⎔ ⎔ ⬣ ⎔ ⎔ ⬣ ⬣ 
+⎔ ⎔ ⎔ ⬣ ⬣ ⬣ ⎔ ⎔ ⎔ ⬣ 
+```
+The method `generate_state_initial()` also creates an initial vocabulary of a file with a lot of words in **Spanish** called [`words.txt`](statics/words.txt). In this way, each active cell (with the `1` state) obtain an initial word.
+
+When it has initilized the grid is possible start to iterate the automata. 
+> The amount of iteration is configurable in the parameter `epochs`. 
+
+For this exist the `iterate_epochs()` method, it has an additional parameter that is `show` a boolean value that shows or not the grid for each iteration.
+> For defauld `show` is `True`.
+
+

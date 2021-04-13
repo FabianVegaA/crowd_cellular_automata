@@ -1,199 +1,69 @@
-0 3 saq
+0 4 cucaracha
 
-0 4 mtq
+1 7 ghile
 
-0 6 onu
+1 9 chile
 
-0 9 otq
+2 0 cufhana
 
-1 0 pdcp
+2 1 cuckawa
 
-1 1 brcq
+2 3 cnchfra
 
-1 5 pqvt
+2 7 kuchnra
 
-1 9 pdjk
+2 8 cuchalz
 
-2 0 ujlwv
+2 9 yufmana
 
-2 2 wjiwv
+3 3 sv
 
-2 4 djowv
+3 7 sf
 
-2 7 pjozi
+3 9 si
 
-2 9 zjlwc
+4 4 estas
 
-3 1 jemov
+4 5 sinonimo
 
-3 2 zjmkw
+4 6 chao
 
-3 6 sqkkz
+5 0 celular
 
-3 7 kemxv
+5 6 sinonimo
 
-3 9 zgekf
+5 8 gato
 
-4 0 enijr
+6 2 computgdyr
 
-4 1 eegjk
+6 3 qomputadgr
 
-4 6 ebrjr
+6 5 comvutddor
 
-4 7 jejjd
+6 7 ckmputaror
 
-4 8 gekjr
+6 9 computador 
 
-4 9 evnjr
+7 1 mhine
 
-5 8 nwzkljmck
+7 3 chixe
 
-6 0 meyg
+7 7 chexe
 
-6 1 mkho
+7 9 chile
 
-6 2 mnyu
+8 1 colsfzor
 
-6 4 jeyi
+8 2 cslifwor
 
-6 6 mvtu
+8 8 coliwlvr
 
-6 9 jeyg
+8 9 coliflor
 
-7 0 fvczsxcsh
+9 2 cwlklar
 
-7 1 jvdmsmcsh
+9 4 kelulah
 
-7 2 fkcmamcsh
+9 8 uelflar
 
-7 3 fvcmsmush
-
-7 5 gvcmskcsh
-
-7 6 uvcmzkcbh
-
-7 8 fvxfsmcsh
-
-8 0 fvqqvioiu
-
-8 1 gvlqqvopu
-
-8 3 fvaqqdozu
-
-8 4 fvoqvdoiu
-
-8 5 uvbqvdiiu
-
-8 7 fvoqveoiu
-
-8 8 fvbqvdciv
-
-9 0 mhyzklfwl
-
-9 2 mpyzklfwl
-
-9 3 mprzklxwl
-
-9 4 mpyzulfwl
-
-9 5 mpuzklfwg
-
-9 6 jpyzwlfwl
-
-9 7 ghyuulfvl
-
-9 8 mpyzklazl
-
-0 0 stq
-
-0 5 scq
-
-0 7 ttt
-
-0 8 sej
-
-1 4 fncb
-
-1 6 yqtb
-
-2 1 pjgwc
-
-2 5 sjowv
-
-3 0 zsmkf
-
-3 3 zemrv
-
-3 8 znmwv
-
-4 2 eecjn
-
-5 0 odzklvvck
-
-5 1 ombkxvvck
-
-5 7 odzuljmcr
-
-5 9 odzkljmck
-
-7 4 fvcmszlsh
-
-7 7 fvsysmcsh
-
-7 9 fvvzsxcsw
-
-8 2 fvlqqdelu
-
-8 6 fvsqvdoou
-
-8 9 fvcqvikiu
-
-9 1 mpyzfllwl
-
-9 9 mpyzklfwl
-
-0 1 orq
-
-0 2 zsq
-
-1 7 pqjq
-
-1 8 pqci
-
-2 6 axowv
-
-6 8 pdyg
-
-2 8 epowv
-
-4 3 ewajr
-
-4 4 eeter
-
-5 3 odzkrjmak
-
-6 3 joyb
-
-1 2 pqcr
-
-1 3 czch
-
-2 3 aqowv
-
-5 4 ymzkyvock
-
-3 4 zkmkt
-
-3 5 zemkj
-
-5 2 amzkyvvyk
-
-5 5 emaayfvca
-
-6 5 mzyz
-
-4 5 rejja
-
-5 6 kdzkljmck
-
-6 7 jtng
+9 9 celular
